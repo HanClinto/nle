@@ -87,11 +87,13 @@ def play():
             max_episode_steps=FLAGS.max_steps,
             allow_all_yn_questions=True,
             allow_all_modes=True,
+            wizard=FLAGS.wizard,
         )
         if FLAGS.seeds is not None:
             env.seed(FLAGS.seeds)
 
     obs = env.reset()
+    done = False
 
     steps = 0
     episodes = 0
@@ -103,6 +105,9 @@ def play():
 
     total_start_time = timeit.default_timer()
     start_time = total_start_time
+
+    if FLAGS.wizard:
+        env.wizard_genesis("red dragon")
 
     while True:
         if not FLAGS.no_render:
@@ -238,6 +243,12 @@ def main():
         "-p",
         action="store_true",
         help="Don't overwrite frames, print them all.",
+    )
+    parser.add_argument(
+        "--wizard",
+        "-w",
+        action="store_true",
+        help="Enable wizard mode.",
     )
     global FLAGS
     FLAGS = parser.parse_args()

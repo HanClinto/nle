@@ -695,3 +695,37 @@ This might contain data that shouldn't be abailable to agents."""
         if not done:
             # Somehow, the above logic failed us.
             warnings.warn("Warning: smooth quitting of game failed, aborting.")
+
+    def _wizard_command(self, command, command_input):
+        # TODO: Maybe ensure that we are in wizard mode?
+        # if not self.env.wizard:
+        #    return
+
+        # TODO: Get out of menus and windows.
+        # observation, done = self._perform_known_steps(
+        #    observation, done, exceptions=False
+        # )
+
+        # Create our monster
+        for a in command:
+            observation, done = self.env.step(ord(a))
+
+        # Answer the wizard prompt
+        for a in command_input:
+            observation, done = self.env.step(ord(a))
+
+        observation, done = self.env.step(ord("\r"))
+
+        return observation, done
+
+    def wizard_levelchange(self, target_level):
+        """If we're in wizard mode, set our player level"""
+        return self._wizard_command("#levelchange\r", target_level)
+
+    def wizard_genesis(self, monster_type_or_class):
+        """If we're in wizard mode, create a specific monster"""
+        return self._wizard_command("#wizgenesis\r", monster_type_or_class)
+
+    def wizard_wish(self, wish_item):
+        """If we're in wizard mode, wish for an item"""
+        return self._wizard_command("#wizwish\r", wish_item)
