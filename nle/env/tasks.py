@@ -1,6 +1,6 @@
 # Copyright (c) Facebook, Inc. and its affiliates.
 import enum
-
+import random
 import numpy as np
 
 from nle.env import base
@@ -300,6 +300,7 @@ class NetHackChallenge(NetHackScore):
         self,
         *args,
         character="@",
+        wizard: bool = False,
         allow_all_yn_questions=True,
         allow_all_modes=True,
         penalty_mode="constant",
@@ -330,6 +331,7 @@ class NetHackChallenge(NetHackScore):
             *args,
             actions=actions,
             character=character,
+            wizard=wizard,
             allow_all_yn_questions=allow_all_yn_questions,
             allow_all_modes=allow_all_modes,
             penalty_mode=penalty_mode,
@@ -371,3 +373,77 @@ class NetHackChallenge(NetHackScore):
 
     def seed(self, core=None, disp=None, reseed=True):
         raise RuntimeError("NetHackChallenge doesn't allow seed changes")
+
+class NetHackChallengeWizmodeWithMonster(NetHackScore):
+
+    def __init__(
+        self,
+        *args,
+        character="@",
+        allow_all_yn_questions=True,
+        allow_all_modes=True,
+        penalty_mode="constant",
+        penalty_step: float = -0.00,
+        penalty_time: float = -0.0,
+        max_episode_steps: int = 1e6,
+        observation_keys=(
+            "glyphs",
+            "chars",
+            "colors",
+            "specials",
+            "blstats",
+            "message",
+            "inv_glyphs",
+            "inv_strs",
+            "inv_letters",
+            "inv_oclasses",
+            "tty_chars",
+            "tty_colors",
+            "tty_cursor",
+            "misc",
+        ),
+        no_progress_timeout: int = 10_000,
+        **kwargs,
+    ):
+        actions = nethack.ACTIONS
+        super().__init__(
+            *args,
+            actions=actions,
+            character=character,
+            wizard=True,
+            allow_all_yn_questions=allow_all_yn_questions,
+            allow_all_modes=allow_all_modes,
+            penalty_mode=penalty_mode,
+            penalty_step=penalty_step,
+            penalty_time=penalty_time,
+            max_episode_steps=max_episode_steps,
+            observation_keys=observation_keys,
+            **kwargs,
+        )
+        
+    def reset(self, *args, **kwargs):
+        super().reset(*args, **kwargs)
+
+        # Spawn a random easy monste, randomly
+        monsters = [   
+            "red mold",
+            "green mold",
+            "brown mold",
+            "acid blob",
+            "yellow mold",
+            "gnome zombie",
+            "giant rat",
+            "gecko",
+            "coyote",
+            "bat",
+            "kobold",
+            "goblin",
+            "lichen",
+            "fox",
+            "sewer rat",
+            "newt",
+            "kobold zombie",
+            "jackal",
+            "grid bug"]
+        
+        return self.wizard_genesis(random.choice(monsters))
