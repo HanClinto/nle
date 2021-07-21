@@ -445,5 +445,6 @@ class NetHackChallengeWizmodeWithMonster(NetHackScore):
             "kobold zombie",
             "jackal",
             "grid bug"]
-        
-        return self.wizard_genesis(random.choice(monsters))
+
+        obs, done = self.wizard_genesis(random.choice(monsters))
+        return obs
