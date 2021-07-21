@@ -19,5 +19,7 @@ registration.register(id="NetHackScout-v0", entry_point="nle.env.tasks:NetHackSc
 registration.register(
     id="NetHackChallenge-v0", entry_point="nle.env.tasks:NetHackChallenge"
 )
-
+registration.register(
+    id="NetHackChallengeWizmodeWithMonster-v0", entry_point="nle.env.tasks:NetHackChallengeWizmodeWithMonster"
+)
 __all__ = ["NLE", "DUNGEON_SHAPE"]
