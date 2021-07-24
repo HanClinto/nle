@@ -374,7 +374,7 @@ class NetHackChallenge(NetHackScore):
     def seed(self, core=None, disp=None, reseed=True):
         raise RuntimeError("NetHackChallenge doesn't allow seed changes")
 
-class NetHackChallengeWizmodeWithMonster(NetHackScore):
+class NetHackChallengeWizmodeWithMonster(NetHackChallenge):
 
     def __init__(
         self,
