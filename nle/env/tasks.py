@@ -405,10 +405,8 @@ class NetHackChallengeWizmodeWithMonster(NetHackChallenge):
         no_progress_timeout: int = 10_000,
         **kwargs,
     ):
-        actions = nethack.ACTIONS
         super().__init__(
             *args,
-            actions=actions,
             character=character,
             wizard=True,
             allow_all_yn_questions=allow_all_yn_questions,
