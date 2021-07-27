@@ -716,7 +716,7 @@ This might contain data that shouldn't be abailable to agents."""
 
         observation, done = self.env.step(ord("\r"))
 
-        return observation, done
+        return self._get_observation(observation), done
 
     def wizard_levelchange(self, target_level):
         """If we're in wizard mode, set our player level"""
